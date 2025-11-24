@@ -7,6 +7,9 @@
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.webmanifest" />
+
   <style>
     :root {
       --accent: #111111;
@@ -173,9 +176,9 @@
       font-size: 0.8rem;
     }
 
-    /* Hidden WebXR canvas and video element */
+    /* XR canvas and video hidden from UI */
     #xr-canvas {
-      display: none; /* We use it for WebXR only; no 2D preview */
+      display: none;
     }
 
     #xr-video {
@@ -200,39 +203,17 @@
             <label for="audience-select">Audience Scenarios</label>
             <select id="audience-select">
               <option value="">Select an audience scenario...</option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N0-CF.h264.mp4">
-                Audience of 0
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N1-CF.h264.mp4">
-                Audience of 1
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N2-CF.h264.mp4">
-                Audience of 2
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N4-CF.h264.mp4">
-                Audience of 4
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N9-CF.h264.mp4">
-                Audience of 9
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N16-CF.h264.mp4">
-                Audience of 16
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N25-CF.h264.mp4">
-                Audience of 25
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N50-CF.h264.mp4">
-                Audience of 50
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N100-CF.h264.mp4">
-                Audience of 100
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N500-CF.h264.mp4">
-                Audience of 500
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N10K-CF.h264.mp4">
-                Audience of 1000s
-              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N0-CF.h264.mp4">Audience of 0</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N1-CF.h264.mp4">Audience of 1</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N2-CF.h264.mp4">Audience of 2</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N4-CF.h264.mp4">Audience of 4</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N9-CF.h264.mp4">Audience of 9</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N16-CF.h264.mp4">Audience of 16</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N25-CF.h264.mp4">Audience of 25</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N50-CF.h264.mp4">Audience of 50</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N100-CF.h264.mp4">Audience of 100</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N500-CF.h264.mp4">Audience of 500</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N10K-CF.h264.mp4">Audience of 1000s</option>
             </select>
           </div>
 
@@ -242,15 +223,9 @@
             <label for="special-select">Special Scenarios</label>
             <select id="special-select">
               <option value="">Select a special scenario...</option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/ACC01-CF.h264.mp4">
-                TV teleprompter
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/JIC01-CF.h264.mp4">
-                Job interview
-              </option>
-              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/RIC01-CF.h264.mp4">
-                Radio interview
-              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/ACC01-CF.h264.mp4">TV teleprompter</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/JIC01-CF.h264.mp4">Job interview</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/RIC01-CF.h264.mp4">Radio interview</option>
             </select>
           </div>
         </div>
@@ -266,7 +241,7 @@
       </section>
     </main>
 
-    <!-- Hidden WebXR canvas + 360 video element -->
+    <!-- Hidden elements used by WebXR -->
     <canvas id="xr-canvas"></canvas>
     <video
       id="xr-video"
@@ -281,9 +256,10 @@
     </footer>
   </div>
 
-  <!-- Three.js (from CDN) -->
+  <!-- Three.js -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.min.js"></script>
-  <!-- App logic -->
+
+  <!-- XR App -->
   <script src="app.js"></script>
 </body>
 </html>
