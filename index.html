@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>XR Explorer</title>
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <style>
+    :root {
+      --accent: #111111;
+      --accent-soft: #e5e5e5;
+      --border: #dddddd;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --bg: #ffffff;
+      --button-bg: #111111;
+      --button-text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 640px;
+      padding: 24px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    section.panel {
+      padding: 16px 16px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #fafafa;
+    }
+
+    section.panel h2 {
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .dropdown-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .field label {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    select {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      background: #ffffff;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    .or-divider {
+      text-align: center;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin: 4px 0;
+    }
+
+    .enter-vr-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    #go-button {
+      padding: 10px 24px;
+      border-radius: 999px;
+      border: none;
+      background: var(--button-bg);
+      color: var(--button-text);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #go-button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .status {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      min-height: 1em;
+    }
+
+    footer {
+      margin-top: 24px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    footer .brand {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    footer .version {
+      margin-top: 2px;
+      font-size: 0.8rem;
+    }
+
+    /* Hidden WebXR canvas and video element */
+    #xr-canvas {
+      display: none; /* We use it for WebXR only; no 2D preview */
+    }
+
+    #xr-video {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1>XR Explorer</h1>
+      <p>Select a simulation and enter immersive VR</p>
+    </header>
+
+    <main>
+      <!-- Part 1: Select Simulation -->
+      <section class="panel">
+        <h2>Part 1: Select Simulation</h2>
+
+        <div class="dropdown-group">
+          <div class="field">
+            <label for="audience-select">Audience Scenarios</label>
+            <select id="audience-select">
+              <option value="">Select an audience scenario...</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N0-CF.h264.mp4">
+                Audience of 0
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N1-CF.h264.mp4">
+                Audience of 1
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N2-CF.h264.mp4">
+                Audience of 2
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N4-CF.h264.mp4">
+                Audience of 4
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N9-CF.h264.mp4">
+                Audience of 9
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N16-CF.h264.mp4">
+                Audience of 16
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N25-CF.h264.mp4">
+                Audience of 25
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N50-CF.h264.mp4">
+                Audience of 50
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N100-CF.h264.mp4">
+                Audience of 100
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N500-CF.h264.mp4">
+                Audience of 500
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/N10K-CF.h264.mp4">
+                Audience of 1000s
+              </option>
+            </select>
+          </div>
+
+          <div class="or-divider">or</div>
+
+          <div class="field">
+            <label for="special-select">Special Scenarios</label>
+            <select id="special-select">
+              <option value="">Select a special scenario...</option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/ACC01-CF.h264.mp4">
+                TV teleprompter
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/JIC01-CF.h264.mp4">
+                Job interview
+              </option>
+              <option value="https://pub-850a8ef9d4f34159a20706a415caaaf8.r2.dev/RIC01-CF.h264.mp4">
+                Radio interview
+              </option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Part 2: Enter VR -->
+      <section class="panel">
+        <h2>Part 2: Enter VR</h2>
+        <div class="enter-vr-wrapper">
+          <button id="go-button">Go</button>
+          <div id="status" class="status"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Hidden WebXR canvas + 360 video element -->
+    <canvas id="xr-canvas"></canvas>
+    <video
+      id="xr-video"
+      playsinline
+      webkit-playsinline
+      crossorigin="anonymous"
+    ></video>
+
+    <footer>
+      <div class="brand">Brought to you by Cambridge VR</div>
+      <div class="version">v1.0</div>
+    </footer>
+  </div>
+
+  <!-- Three.js (from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.164.0/build/three.min.js"></script>
+  <!-- App logic -->
+  <script src="app.js"></script>
+</body>
+</html>
